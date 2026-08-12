@@ -1,4 +1,4 @@
 ---
 # Pas deze wachtwoorden aan, of geef ze door via --extra-vars of Ansible Vault
-bookstack_db_root_password: "ChangeMe_RootPass123!"
-bookstack_db_password: "ChangeMe_DbPass123!"
+bookstack_db_root_password: "DevOpsSecret123!"
+bookstack_db_password: "DevOpsSecret123!"
