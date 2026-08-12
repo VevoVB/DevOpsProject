@@ -1,8 +1,8 @@
 terraform {
   backend "s3" {
-    bucket         = "devopsproject-vevovb-tfstate"   # moet uniek zijn wereldwijd, pas aan indien nodig
+    bucket         = "devopsproject-vevovb-tfstate"   
     key            = "bookstack/terraform.tfstate"
-    region         = "eu-west-1"                      # zelfde regio als je bucket
+    region         = "eu-west-1"                      
     dynamodb_table = "devopsproject-tfstate-lock"
     encrypt        = true
   }
