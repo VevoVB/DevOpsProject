@@ -67,6 +67,7 @@ jobs:
           ansible-playbook playbook.yml \
             --extra-vars "bookstack_db_root_password=${{ secrets.BOOKSTACK_DB_ROOT_PASSWORD }}" \
             --extra-vars "bookstack_db_password=${{ secrets.BOOKSTACK_DB_PASSWORD }}" \
+            --extra-vars "bookstack_app_key=${{ secrets.BOOKSTACK_APP_KEY }}" \
             --extra-vars "netdata_claim_token=${{ secrets.NETDATA_CLAIM_TOKEN }}" \
             --extra-vars "netdata_claim_room=${{ secrets.NETDATA_CLAIM_ROOM }}"
 

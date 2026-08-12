@@ -2,3 +2,6 @@
 # Pas deze wachtwoorden aan, of geef ze door via --extra-vars of Ansible Vault
 bookstack_db_root_password: "DevOpsSecret123!"
 bookstack_db_password: "DevOpsSecret123!"
+# Genereer lokaal met: openssl rand -base64 32
+# en zet er zelf "base64:" voor, bv: base64:AbCdEf123...==
+bookstack_app_key: "base64:JQGeITPos+yqrKTqxwGK5ovDdeoNLkWK9EjCt6NK67Q="
