@@ -28,8 +28,8 @@ services:
       APP_KEY: ${APP_KEY}
       DB_HOST: bookstack_db
       DB_PORT: 3306
-      DB_USER: bookstack
-      DB_PASS: ${DB_PASSWORD}
+      DB_USERNAME: bookstack
+      DB_PASSWORD: ${DB_PASSWORD}
       DB_DATABASE: bookstackapp
     volumes:
       - bookstack_data:/config
