@@ -1,0 +1,56 @@
+---
+- name: Installeer vereisten voor Docker repository
+  apt:
+    name:
+      - apt-transport-https
+      - software-properties-common
+    state: present
+
+- name: Voeg Docker GPG-key toe
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Voeg Docker apt-repository toe
+  apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+    state: present
+
+- name: Installeer Docker Engine en Compose plugin
+  apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-compose-plugin
+    state: present
+    update_cache: true
+
+- name: Zorg dat Docker service draait en actief blijft na reboot
+  service:
+    name: docker
+    state: started
+    enabled: true
+
+- name: Maak projectmap voor BookStack aan
+  file:
+    path: /opt/bookstack
+    state: directory
+    mode: "0755"
+
+- name: Kopieer docker-compose.yml naar de server
+  copy:
+    src: docker-compose.yml
+    dest: /opt/bookstack/docker-compose.yml
+    mode: "0644"
+
+- name: Kopieer .env bestand met wachtwoorden
+  template:
+    src: env.j2
+    dest: /opt/bookstack/.env
+    mode: "0600"
+
+- name: Start BookStack (en zijn database) via Docker Compose
+  command: docker compose up -d
+  args:
+    chdir: /opt/bookstack

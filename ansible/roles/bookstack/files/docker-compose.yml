@@ -1,0 +1,46 @@
+version: "3.8"
+
+services:
+  bookstack_db:
+    image: mariadb:10.6
+    container_name: bookstack_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: bookstackapp
+      MYSQL_USER: bookstack
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - bookstack_db_data:/var/lib/mysql
+    networks:
+      - bookstack_net
+
+  bookstack:
+    image: lscr.io/linuxserver/bookstack:latest
+    container_name: bookstack
+    restart: unless-stopped
+    depends_on:
+      - bookstack_db
+    environment:
+      PUID: 1000
+      PGID: 1000
+      APP_URL: ${APP_URL}
+      DB_HOST: bookstack_db
+      DB_PORT: 3306
+      DB_USER: bookstack
+      DB_PASS: ${DB_PASSWORD}
+      DB_DATABASE: bookstackapp
+    volumes:
+      - bookstack_data:/config
+    ports:
+      - "80:80"
+    networks:
+      - bookstack_net
+
+volumes:
+  bookstack_db_data:
+  bookstack_data:
+
+networks:
+  bookstack_net:
+    driver: bridge

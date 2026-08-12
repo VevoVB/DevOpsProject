@@ -1,0 +1,27 @@
+---
+- name: Wacht tot apt-lock vrij is (voorkomt conflicten bij net gestarte VM)
+  shell: while fuser /var/lib/dpkg/lock-frontend >/dev/null 2>&1; do sleep 1; done
+  changed_when: false
+
+- name: Update apt package cache
+  apt:
+    update_cache: true
+    cache_valid_time: 3600
+
+- name: Upgrade alle packages naar laatste versie
+  apt:
+    upgrade: dist
+
+- name: Verwijder ongebruikte packages
+  apt:
+    autoremove: true
+
+- name: Installeer basis tools (curl, git, unzip)
+  apt:
+    name:
+      - curl
+      - git
+      - unzip
+      - ca-certificates
+      - gnupg
+    state: present

@@ -1,0 +1,5 @@
+---
+# Maak een gratis account aan op https://app.netdata.cloud
+# en haal daar je "Claim token" en "Room ID" op (Connect Nodes)
+netdata_claim_token: ""
+netdata_claim_room: ""

@@ -1,0 +1,30 @@
+---
+- name: Download Netdata installatiescript
+  get_url:
+    url: https://get.netdata.cloud/kickstart.sh
+    dest: /tmp/netdata-kickstart.sh
+    mode: "0755"
+
+- name: Installeer Netdata (non-interactive, en registreer bij Netdata Cloud)
+  shell: >
+    /tmp/netdata-kickstart.sh
+    --non-interactive
+    --stable-channel
+    --claim-token {{ netdata_claim_token }}
+    --claim-rooms {{ netdata_claim_room }}
+    --claim-url https://app.netdata.cloud
+  args:
+    creates: /opt/netdata/bin/netdata
+  when: netdata_claim_token is defined and netdata_claim_token != ""
+
+- name: Installeer Netdata zonder cloud-registratie (fallback als geen token is opgegeven)
+  shell: /tmp/netdata-kickstart.sh --non-interactive --stable-channel
+  args:
+    creates: /opt/netdata/bin/netdata
+  when: netdata_claim_token is not defined or netdata_claim_token == ""
+
+- name: Zorg dat Netdata service draait en actief blijft na reboot
+  service:
+    name: netdata
+    state: started
+    enabled: true
